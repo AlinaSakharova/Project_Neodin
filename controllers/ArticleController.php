@@ -46,21 +46,21 @@ class ArticleController extends Controller
         if (!empty($article_ids)){
 			$categories= Yii::app()->db->createCommand()
 			->select('a.id, a.id_parent, a.category_name, d.id as d_id, d.dates_temp, d.title, d.id_category_article')
-       		->from('db_category a')
+       			->from('db_category a')
 			->andWhere('id_parent != 0')
 			->andWhere('d.id in ('.implode(',', $article_ids).')')
 			->leftJoin('db_users s', ' s.id = a.id_author')
 			->leftJoin('db_article d', ' d.id = a.id')
-       		->queryAll();
+       			->queryAll();
 		}
 		else{
 			 $categories= Yii::app()->db->createCommand()
 			->select('a.id, a.id_parent, a.category_name, d.id as d_id, d.dates_temp, d.title, d.id_category_article')
-       		->from('db_category a')
+       			->from('db_category a')
 			->andWhere('id_parent != 0')
 			->leftJoin('db_users s', ' s.id = a.id_author')
 			->leftJoin('db_article d', ' d.id_category_article = a.id')
-       		->queryAll();
+       			->queryAll();
 			
 		}
 		if (!empty($id_tag)){
@@ -69,7 +69,6 @@ class ArticleController extends Controller
 			->from('db_article d')
 			->andWhere('d.id in ('.implode($article_ids).')')
 			->leftJoin('db_users s', ' s.id = d.id_author')
-		
 			->queryAll();
 		}
 		else{
@@ -77,11 +76,9 @@ class ArticleController extends Controller
 			->select('d.*, s.lastName, s.middleName, s.firstName')
 			->from('db_article d')
 			->leftJoin('db_users s', ' s.id = d.id_author')
-		
 			->queryAll();
 		}
 		$this->render("/article/index", compact('articles', 'categories_title','categories', 'id_tag', 'tags_name', 'all_tags', 'article'
-		//'category' => $cat_faq
 		));
 	}
 
@@ -94,10 +91,6 @@ class ArticleController extends Controller
 	
 	public function actionEdit()
 	{
-	
-		echo "test22222";
-	exit;
-
 		$id = $_POST['id'];
 		$model = $this->findModel($id); //проверить что она не null
 		
@@ -114,10 +107,8 @@ class ArticleController extends Controller
 		
 		}
 		else {
-			
 			$categories = Yii::app()->db->createCommand()
-			
-            ->select('id, category_name')
+            		->select('id, category_name')
 			->from('db_category')
 			->queryAll();
 		         }
@@ -146,7 +137,7 @@ class ArticleController extends Controller
 		if($article)
 		{
 			$this->render('view', array('article'=>$article[0], 'tags'=>$tags));	
-		 }
+		}
 				 
 		else {
 			throw new CHttpException(404, 'Статья не найдена');
